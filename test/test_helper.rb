@@ -7,9 +7,17 @@ require 'minitest/spec'
 require 'minitest/pride'
 require 'rack/test'
 
-class MiniTest::Spec
+def test_root
+  File.expand_path('../', __FILE__)
+end
+
+Dir.glob("#{test_root}/support/**", &method(:require))
+
+class MiniTest::Test
   include Rack::Test::Methods
+
   def app
     Sinatra::Application
   end
+
 end
