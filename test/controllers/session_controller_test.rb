@@ -2,15 +2,14 @@ require "test_helper"
 
 describe 'Session' do
   it 'shows the form for a new session' do
-    get :new
-    assert_equal 200, response.status
-    assert_not_nil assigns(:user)
-    assert_select 'form.ui.form input', 4
+    get '/login'
+    assert_response :ok
+    assert_select 'form.ui.form input', 2
   end
 
   it 'can create a new session' do
-    get :create, {user: {name: 'nobody'}}
-    assert_equal 200, response.status
+    post '/login', {user: {name: 'nobody'}}
+    assert_response :ok
   end
 
 end

@@ -11,7 +11,7 @@ def test_root
   File.expand_path('../', __FILE__)
 end
 
-Dir.glob("#{test_root}/support/**", &method(:require))
+Dir.glob("#{test_root}/support/**/*.rb", &method(:require))
 
 class MiniTest::Test
   include Rack::Test::Methods

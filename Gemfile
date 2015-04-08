@@ -8,6 +8,8 @@ source 'https://rubygems.org' do
   gem 'bcrypt', '~> 3.1.7'
   gem 'nokogiri'
 
+  gem 'slim'
+
   group :test, :development do
     gem "rack-test", group: :test
     gem "simplecov"

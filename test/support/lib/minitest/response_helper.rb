@@ -1,3 +1,4 @@
+# Put the files in a path containing 'lib/minitest' will remove them from the backtrace
 
 class MiniTest::Test
   def json
@@ -8,10 +9,12 @@ class MiniTest::Test
     end
   end
 
-  cattr_accessor(:session) { {} }
-
   def response
     last_response
+  end
+
+  def session
+    last_request.env['rack.session']
   end
 
 end

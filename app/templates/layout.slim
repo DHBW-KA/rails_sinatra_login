@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    link rel='stylesheet' href='/semantic-ui/semantic.min.css' media='screen' type='text/css'
+    script type='text/javascript' src='/jquery.min.js'
+    script type='text/javascript' src='/semantic-ui/semantic.min.js'
+    title TDD
+  body
+    .ui.menu
+      a.item href='/'
+        i.icon.home
+        | Home
+      .menu.right
+        -if session[:user]
+          a.item href='/login' method='delete'
+            i.icon.lock
+            | Logout
+        -else
+          a.item href='/login'
+            i.icon.lock
+            | Login
+    .ui.segment
+      - (@flash || []).each do |key, value|
+        .ui.message class=key
+          i.close.icon
+          = value
+
+    .ui.three.column.grid.segment
+      .column
+      .column
+        == yield
+      .column
