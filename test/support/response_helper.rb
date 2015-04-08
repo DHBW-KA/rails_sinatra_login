@@ -8,7 +8,10 @@ class MiniTest::Test
     end
   end
 
+  cattr_accessor(:session) { {} }
+
   def response
     last_response
   end
+
 end

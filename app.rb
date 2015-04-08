@@ -7,4 +7,5 @@ require 'json'
 
 ActiveRecord::Base.establish_connection(YAML.load(File.read('./config/database.yml'))[ENV['RACK_ENV']])
 
+enable :sessions unless test?
 require 'routes.rb'

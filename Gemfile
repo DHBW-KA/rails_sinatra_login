@@ -5,7 +5,8 @@ source 'https://rubygems.org' do
   gem 'sinatra'
   gem 'activerecord', require: 'active_record'
   gem 'sqlite3'
-
+  gem 'bcrypt', '~> 3.1.7'
+  gem 'nokogiri'
 
   group :test, :development do
     gem "rack-test", group: :test

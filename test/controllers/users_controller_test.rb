@@ -3,7 +3,7 @@ require "test_helper"
 describe 'UsersController' do
 
   before {
-    session[:user] = users(:admin).id
+    env "rack.session", {user: users(:admin).id }
   }
   def user
     @user ||= users :one
@@ -11,7 +11,7 @@ describe 'UsersController' do
 
   def test_index
     get :index
-    assert_response :success
+    assert_equal 200, response.status
     assert_not_nil assigns(:users)
   end
 
@@ -22,38 +22,40 @@ describe 'UsersController' do
 
   def test_new
     get :new
-    assert_response :success
+    assert_equal 200, response.status
   end
 
   def test_create
-    assert_difference('User.count') do
-      post :create, user: { email: user.email, name: user.name, password_digest: user.password_digest }
-    end
+    count = User.count
+    post :create, user: { email: user.email, name: user.name, password_digest: user.password_digest }
+    assert_equal count+1, User.count
 
     assert_redirected_to user_path(assigns(:user))
   end
 
   def test_show
     get :show, id: user
-    assert_response :success
+    assert_equal 200, response.status
   end
 
   def test_edit
     get :edit, id: user
-    assert_response :success
+    assert_equal 200, response.status
   end
 
   def test_update
     put :update, id: user, user: { email: user.email, name: user.name, password_digest: user.password_digest }
-    assert_redirected_to user_path(assigns(:user))
+    assert last_response.redirect?, "Redirect expected but status was <#{last_response.status}>"
+    follow_redirect!
+    assert_equal "users/#{user.id}", last_request.fullpath
   end
 
   def test_destroy
-    assert_difference('User.count', -1) do
-      delete :destroy, id: user
-    end
+    count = User.count
+    delete :destroy, id: user
+    assert_equal count-1, User.count
 
-    assert_redirected_to users_path
+    assert_equal "/users", last_request.fullpath
   end
 
   it 'updates with invalid data' do

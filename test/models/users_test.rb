@@ -21,7 +21,7 @@ describe User do
     user.password = '123'
     user.email = 'valid@mail.de'
     user.save!
-    assert_not user.password_digest.blank?
+    assert !user.password_digest.blank?
   end
 
 end
